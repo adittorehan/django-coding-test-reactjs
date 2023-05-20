@@ -20,7 +20,13 @@
                 <div class="col-md-2">
                     <select name="variant" id="" class="form-control">
                         <option selected disabled>--Select A Variant--</option>
-
+                        {% for variant in variants %}
+                        <optgroup label="{{ variant.title }}">
+                            {% for product_variant in variant.product_variants %}
+                            <option value="{{ product_variant.variant_title }}">{{ product_variant.variant_title }}</option>
+                            {% endfor %}
+                        </optgroup>
+                        {% endfor %}
                     </select>
                 </div>
 
@@ -63,7 +69,7 @@
                         <td>{{ product.title }} <br> Created at : {{ product.created_at|naturaltime }}</td>
                         <td>{{ product.description }}</td>
                         <td>
-                            <dl class="row mb-0" style="height: 80px; overflow: hidden" id="variant">
+                            <dl class="row mb-0" style="height: 80px; overflow: hidden" id="variant{{product.id}}">
                                 {% for product_variant_price in product.productvariantprice_set.all %}
                                 <dt class="col-sm-3 pb-0">
                                     {{ product_variant_price.product_variant_one.variant_title }}
@@ -78,7 +84,7 @@
                                 </dd>
                                 {% endfor %}
                             </dl>
-                            <button onclick="$('#variant').toggleClass('h-auto')" class="btn btn-sm btn-link">Show more
+                            <button onclick="$('#variant{{product.id}}').toggleClass('h-auto')" class="btn btn-sm btn-link">Show more
                             </button>
                         </td>
                         <td>
